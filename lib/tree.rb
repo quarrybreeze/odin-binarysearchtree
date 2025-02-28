@@ -76,22 +76,40 @@ class Tree
     p "parent: #{parent.data}"
     p "current: #{current.data}"
 
-    if child_count == 0
+    
+    if input != current.data
+      p "#{input} is not a node"
+    elsif child_count == 0
       parent.left = nil
       parent.right = nil
+    elsif child_count == 1 && parent.right && (parent.right == current)
+      if current.left
+        parent.right = current.left
+      elsif current.right
+        parent.right = current.right
+      end
+    elsif child_count == 1 && parent.left && (parent.left.data == current.data)
+      if current.left
+        parent.left = current.left
+      elsif current.right
+        parent.left = current.right
+      end
     else
-      p "error deleting #{input}"
+      p "not yet built"
     end
 
-    if child_count == 1 && 
-      if current.left && input < current.left.data
-        parent.left = current.left
-      elsif current.right && input > current.right.data
-        parent.right = current.right
-      else
-        p "big error deleting #{input}"
-      end
-    end
+
+    
+
+    # if child_count == 1 && 
+    #   if current.left && input < current.left.data
+    #     parent.left = current.left
+    #   elsif current.right && input > current.right.data
+    #     parent.right = current.right
+    #   else
+    #     p "big error deleting #{input}"
+    #   end
+    # end
       
     # elsif child_count == 1
     #   if current.left
@@ -138,11 +156,12 @@ end
 array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
 test = Tree.new(array)
 test.insert(2)
-test.pretty_print
+# test.pretty_print
 test.insert(4)
 test.insert(6)
-test.pretty_print
-# test.delete(6)
-test.delete(3)
+# test.pretty_print
+# test.delete(2)
+# test.delete(3)
+# test.delete(67)
 # test.delete(324)
 test.pretty_print
