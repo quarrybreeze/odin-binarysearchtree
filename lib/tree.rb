@@ -243,6 +243,61 @@ class Tree
     end
   end
 
+  def height(node)
+    if node == nil
+      return -1
+    end
+    left_height = height(node.left)
+    right_height = height(node.right)
+    return [left_height,right_height].max+1
+  end
+
+  def depth(node)
+    target_data = node.data
+    current = @root
+    depth = 0
+
+    while current
+      if current.data > target_data
+        current = current.left
+        depth += 1
+      elsif current.data < target_data
+        current = current.right
+        depth += 1
+      elsif current.data == target_data
+        break
+      else
+        p "#{node.data} not found"
+        break
+      end
+    end
+    return depth
+  end
+
+  def balanced?
+    left_height = self.height(@root.left)
+    right_height = self.height(@root.right)
+    difference = left_height - right_height
+    if (difference <= 1) &&
+      (difference >= -1)
+      return true
+    else
+      return false
+    end
+  end
+
+  def rebalance
+    if balanced?
+      p "Tree is balanced"
+      return @root
+    else
+      p "Tree is rebalancing..."
+      array = self.inorder
+      @root = self.build_tree(array)
+      return @root
+    end
+  end
+
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
@@ -250,28 +305,3 @@ class Tree
   end
 
 end
-
-
-# array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
-array = [1,2,3,4,5,6,7,9,10,11]
-test = Tree.new(array)
-test.pretty_print
-# test.insert(2)
-# test.pretty_print
-# test.insert(4)
-# test.insert(6)
-# test.pretty_print
-# test.delete(2)
-# test.delete(3)
-
-# test.delete(324)
-# test.delete(67)
-# test.delete(8)
-
-# test.level_order {|node| puts "Visited node: #{node}"}
-
-# temp = test.level_order
-# p temp
-p test.preorder
-p test.inorder
-p test.postorder
