@@ -274,15 +274,19 @@ class Tree
     return depth
   end
 
-  def balanced?
-    left_height = self.height(@root.left)
-    right_height = self.height(@root.right)
+  def balanced?(node = @root)
+    return true if node.nil?
+
+    left_height = height(node.left)
+    right_height = height(node.right)
+
     difference = left_height - right_height
+
     if (difference <= 1) &&
-      (difference >= -1)
-      return true
+       (difference >= -1)
+      balanced?(node.left) && balanced?(node.right)
     else
-      return false
+      false
     end
   end
 
